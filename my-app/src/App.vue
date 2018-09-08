@@ -1,19 +1,8 @@
 <template>
     <div id="app">
-        <ul>
-            <li v-for="item in itemList" :key="item.id"> {{item.name}} <button class="button2" v-bind:id="item.id" @click="removeItem(item.id)">DEL</button> </li>
-        </ul>
-        <form @submit.prevent="onSubmit()">
-            <input
-                name="itemName"
-                v-model="itemName"
-                v-validate="'required|min:3'"
-            >
-            <button>Add</button>
-            <div v-show="errors.has('itemName')">
-                {{ errors.first('itemName') }}
-            </div>
-        </form>
+        <ProductList :itemList="itemList"
+            @item-remove="onItemRemove"></ProductList>
+        <ProductForm @add-product="addItem"></ProductForm>
     </div>
 </template>
 
@@ -21,10 +10,16 @@
 import uuid from 'uuid/v4';
 import VeeValidate from 'vee-validate';
 import Vue from 'vue';
+import ProductList from './components/ProductList';
+import ProductForm from './components/ProductForm';
 Vue.use(VeeValidate);
 
 export default {
-  name: "app",
+//  name: "app",
+  components: {
+      ProductList,
+      ProductForm
+  },
   data() {
     return {
       itemName: "",
@@ -37,13 +32,9 @@ export default {
     };
   },
   methods: {
-    addItem(itemName) {
-      this.lastItemId++;
-      this.itemList.push({ name: itemName, id: this.lastItemId });
-    },
-    removeItem(itemId) {
-      console.log(itemId);
-      this.itemList = this.itemList.filter(el => el.id !== itemId);
+    addItem(item) {
+      this.itemList.push({ name: item.name, id: item.id });
+      console.log(item)
     },
     onSubmit() {
       this.$validator.validateAll().then(result => {
@@ -54,10 +45,14 @@ export default {
           id: uuid(),
           name: this.itemName
         });
+        console.log(this.itemList)
         this.itemName = "";
         this.$validator.reset();
       });
-    }
+    },
+    onItemRemove(itemId) {
+      this.itemList = this.itemList.filter(el => el.id !== itemId);
+    },
   }
 };
 </script>
