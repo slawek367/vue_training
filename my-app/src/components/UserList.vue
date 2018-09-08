@@ -5,15 +5,16 @@
     </ul>
     <p v-if="!users.length">No users!</p>
   </div>
+
 </template>
 
 <script>
-  export default {
-    name: "UserList",
-    props: {
-      users: {
-        type: Array,
-      }
+export default {
+  name: "UserList",
+  props: {
+    users: {
+      type: Array
     }
   }
+};
 </script>

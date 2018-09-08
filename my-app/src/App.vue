@@ -4,7 +4,8 @@
             @item-remove="onItemRemove"></ProductList>
         <ProductForm @add-product="addItem"></ProductForm>
         <h2>Users</h2>
-        <UserList :users="sharedState.users"></UserList>
+        <UserList :users="sharedState.users" ></UserList>
+        <UserForm @add-user="onAddUser"></UserForm>
     </div>
 </template>
 
@@ -17,6 +18,7 @@ import ProductList from './components/ProductList';
 import ProductForm from './components/ProductForm';
 import OrderList from './components/OrderList';
 import UserList from './components/UserList';
+import UserForm from './components/UserForm';
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import store from './store/store'
@@ -29,7 +31,8 @@ export default {
       ProductList,
       ProductForm,
       OrderList,
-      UserList
+      UserList,
+      UserForm
   },
   created() {
     store.fetchUsers();
@@ -72,6 +75,7 @@ export default {
       this.itemList = items;
     },
     onAddUser(user) {
+      console.log("Add user")
       store.addUser(user);
     }
   }
