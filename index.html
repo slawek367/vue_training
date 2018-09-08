@@ -6,8 +6,11 @@
     <title>Vue.js Start</title>
     <style>
         #button1 {
-            width: 40px;
+            width: 100px;
             height: 40px;
+        }
+        .button2 {
+            height: 30px;
         }
     </style>
 </head>
@@ -15,22 +18,27 @@
 <body>
     <div id="app">
         <ul>
-            <li v-for="item in itemList"> {{item.name}} </li>
-            <input v-model="itemName" placeholder="Item name">
-            <button id="button1" @click="addItem(itemName)">Add item</button>
+            <li v-for="item in itemList"> {{item.name}} <button class="button2" v-bind:id="item.id" @click="removeItem(item.id)">DEL</button> </li>
         </ul>
+        <input v-model="itemName" placeholder="Item name">
+        <button id="button1" @click="addItem(itemName)">Add item</button>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
     <script>
         const app = new Vue({
             el: '#app',
             data: {
-                lastItemId: 'Hello DevMeetings!',
-                itemList: [ {'name': 'aaa'}, {'name': 'bbb'}, {'name': 'ccc'} ]
+                lastItemId: 3,
+                itemList: [ {'name': 'aaa', 'id': 1}, {'name': 'bbb', 'id': 2}, {'name': 'ccc', 'id': 3} ]
             },
             methods: {
                 addItem(itemName) {
-                    this.itemList.push({'name': itemName})
+                    this.lastItemId++
+                    this.itemList.push({'name': itemName, 'id':this.lastItemId})
+                },
+                removeItem(itemId) {
+                    console.log(itemId)
+                    this.itemList = this.itemList.filter( el => el.id !== itemId);
                 }
             }
         })
