@@ -5,7 +5,8 @@ const store = {
     users: []
   },
   async fetchUsers() {
-    this.state.users = await axios.get('users.json').then(res => res.data);
+    this.state.users = await axios.get('http://localhost:3000/users').then(res => res.data);
+
   },
   addUser(user) {
     this.state.users.push(user);
