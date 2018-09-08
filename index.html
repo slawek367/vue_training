@@ -16,7 +16,8 @@
     <div id="app">
         <ul>
             <li v-for="item in itemList"> {{item.name}} </li>
-            <button id="button1" @click="addItem('dsds')">Add item</button>
+            <input v-model="itemName" placeholder="Item name">
+            <button id="button1" @click="addItem(itemName)">Add item</button>
         </ul>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
