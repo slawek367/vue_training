@@ -1,7 +1,7 @@
 <template>
-    <div id="app">
+    <div id="orders">
         <ul>
-            <li v-for="item in itemList" :key="item.id"> {{item.name}} <button class="button2" v-bind:id="item.id" @click="removeItem(item.id)">DEL</button> </li>
+            <li v-for="item in orderList" :key="item.id"> {{item.name}} <button class="button2" v-bind:id="item.id" @click="removeItem(item.id)">DEL</button> </li>
         </ul>
         <form @submit.prevent="onSubmit()">
             <input
@@ -16,7 +16,6 @@
         </form>
     </div>
 </template>
-
 <script>
 import uuid from 'uuid/v4';
 import VeeValidate from 'vee-validate';
@@ -24,33 +23,28 @@ import Vue from 'vue';
 Vue.use(VeeValidate);
 
 export default {
-  name: "app",
+  name: "orders",
   data() {
     return {
       itemName: "",
-      lastItemId: 3,
-      itemList: [
-        { name: "aaa", id: 1 },
-        { name: "bbb", id: 2 },
-        { name: "ccc", id: 3 }
+      orderList: [
+        { name: "order1", id: uuid() },
+        { name: "order2", id: uuid() },
+        { name: "order3", id: uuid() }
       ]
     };
   },
   methods: {
-    addItem(itemName) {
-      this.lastItemId++;
-      this.itemList.push({ name: itemName, id: this.lastItemId });
-    },
     removeItem(itemId) {
       console.log(itemId);
-      this.itemList = this.itemList.filter(el => el.id !== itemId);
+      this.orderList = this.orderList.filter(el => el.id !== itemId);
     },
     onSubmit() {
       this.$validator.validateAll().then(result => {
         if (!result) {
           return;
         }
-        this.itemList.push({
+        this.orderList.push({
           id: uuid(),
           name: this.itemName
         });
