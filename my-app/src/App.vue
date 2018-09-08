@@ -3,7 +3,8 @@
         <ul>
             <li v-for="item in itemList"> {{item.name}} <button class="button2" v-bind:id="item.id" @click="removeItem(item.id)">DEL</button> </li>
         </ul>
-        <button id="button1" @click="addItem('aaa')">Add item</button>
+        <input v-model="itemName" placeholder="Item name">
+        <button id="button1" @click="addItem()">Add item</button>
     </div>
 </template>
 
