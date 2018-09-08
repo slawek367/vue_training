@@ -1,12 +1,18 @@
 <template>
     <ul>
-        <li v-for="item in itemList" :key="item.id"> {{item.name}} <button class="button2" v-bind:id="item.id" @click="removeItem(item.id)">DEL</button> </li>
+        <Item v-for="item in itemList" :key=item.id :item=item @item-remove="removeItem"></Item>
     </ul>
 </template>
 
+
 <script>
+import Item from './Item';
+
 export default {
   name: "ProductList",
+  components: {
+      Item
+  },
   props: {
     itemList: {
       type: Array
