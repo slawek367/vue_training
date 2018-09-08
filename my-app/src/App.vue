@@ -1,15 +1,27 @@
 <template>
     <div id="app">
         <ul>
-            <li v-for="item in itemList"> {{item.name}} <button class="button2" v-bind:id="item.id" @click="removeItem(item.id)">DEL</button> </li>
+            <li v-for="item in itemList" :key="item.id"> {{item.name}} <button class="button2" v-bind:id="item.id" @click="removeItem(item.id)">DEL</button> </li>
         </ul>
-        <input v-model="itemName" placeholder="Item name">
-        <button id="button1" @click="addItem()">Add item</button>
+        <form @submit.prevent="onSubmit()">
+            <input
+                name="itemName"
+                v-model="itemName"
+                v-validate="'required|min:3'"
+            >
+            <button>Add</button>
+            <div v-show="errors.has('itemName')">
+                {{ errors.first('itemName') }}
+            </div>
+        </form>
     </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import uuid from 'uuid/v4';
+import VeeValidate from 'vee-validate';
+import Vue from 'vue';
+Vue.use(VeeValidate);
 
 export default {
   name: "#app",
@@ -31,6 +43,19 @@ export default {
     removeItem(itemId) {
       console.log(itemId);
       this.itemList = this.itemList.filter(el => el.id !== itemId);
+    },
+    onSubmit() {
+      this.$validator.validateAll().then(result => {
+        if (!result) {
+          return;
+        }
+        this.itemList.push({
+          id: uuid(),
+          name: this.itemName
+        });
+        this.itemName = "";
+        this.$validator.reset();
+      });
     }
   }
 };
