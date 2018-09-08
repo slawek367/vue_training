@@ -9,6 +9,6 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-new Vue({
-    render: h => h(Orders)
-}).$mount('#orders')
+//new Vue({
+    //render: h => h(Orders)
+//}).$mount('#orders')

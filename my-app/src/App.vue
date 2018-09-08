@@ -3,22 +3,36 @@
         <ProductList :itemList="itemList"
             @item-remove="onItemRemove"></ProductList>
         <ProductForm @add-product="addItem"></ProductForm>
+        <h2>Users</h2>
+        <UserList :users="sharedState.users"></UserList>
     </div>
 </template>
 
 <script>
+//        <OrderList @sort="order(items)"></OrderList>
 import uuid from 'uuid/v4';
 import VeeValidate from 'vee-validate';
 import Vue from 'vue';
 import ProductList from './components/ProductList';
 import ProductForm from './components/ProductForm';
+import OrderList from './components/OrderList';
+import UserList from './components/UserList';
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+import store from './store/store'
+Vue.use(VueAxios, axios)
 Vue.use(VeeValidate);
 
 export default {
 //  name: "app",
   components: {
       ProductList,
-      ProductForm
+      ProductForm,
+      OrderList,
+      UserList
+  },
+  created() {
+    store.fetchUsers();
   },
   data() {
     return {
@@ -28,8 +42,9 @@ export default {
         { name: "aaa", id: 1 },
         { name: "bbb", id: 2 },
         { name: "ccc", id: 3 }
-      ]
-    };
+      ],
+      sharedState: store.state
+    }
   },
   methods: {
     addItem(item) {
@@ -53,6 +68,12 @@ export default {
     onItemRemove(itemId) {
       this.itemList = this.itemList.filter(el => el.id !== itemId);
     },
+    order(items) {
+      this.itemList = items;
+    },
+    onAddUser(user) {
+      store.addUser(user);
+    }
   }
 };
 </script>
