@@ -10,6 +10,10 @@ const store = {
   addUser(user) {
     this.state.users.push(user);
     axios.post('http://localhost:3000/users', user);
+  },
+  removeUser(userId){
+    this.state.users.pop(userId);
+    axios.delete('http://localhost:3000/users/' + userId);
   }
 };
 

@@ -4,7 +4,7 @@
             @item-remove="onItemRemove"></ProductList>
         <ProductForm @add-product="addItem"></ProductForm>
         <h2>Users</h2>
-        <UserList :users="sharedState.users" ></UserList>
+        <UserList :users="sharedState.users" @user-remove="onUserRemove"></UserList>
         <UserForm @add-user="onAddUser"></UserForm>
     </div>
 </template>
@@ -77,6 +77,9 @@ export default {
     onAddUser(user) {
       console.log("Add user")
       store.addUser(user);
+    },
+    onUserRemove(userId){
+        store.removeUser(userId)
     }
   }
 };
